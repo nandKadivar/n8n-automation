@@ -1,0 +1,81 @@
+{
+  "name": "Jira and Slack Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "events": [
+          "jira:issue_updated"
+        ],
+        "additionalFields": {}
+      },
+      "id": "eaa143c6-5242-49e2-aabb-218a0776782e",
+      "name": "Jira Trigger",
+      "type": "n8n-nodes-base.jiraTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        280
+      ],
+      "webhookId": "c4e31aa7-8f70-484a-a076-2831e919eccb",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "fwsh7Si8l7VE0N32",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07FP1HCTK3",
+          "mode": "list",
+          "cachedResultName": "test-boat"
+        },
+        "text": "=Issue updated in\n {{ $json.issue.fields.project.key }} board in {{ $json.issue.fields.customfield_10020[0].name }}. assigned to  {{ $json.user.displayName }} ",
+        "otherOptions": {}
+      },
+      "id": "fc815e56-b77c-47ae-be97-4e748229b84b",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        600,
+        280
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "91HJDrZgkmCYD4fJ",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Jira Trigger": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c325f645-f04d-43ac-a570-39a0f6ad6b01",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1cb1816eac6168b3511ff09dad015cb4ba2b5f40a13ef42b3670b1753bee7e97"
+  },
+  "id": "1nZB3hCz2GaBM9og",
+  "tags": []
+}

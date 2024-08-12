@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 4",
+  "name": "GitHub and Slack Workflow",
   "nodes": [
     {
       "parameters": {
