@@ -1,0 +1,182 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "owner": {
+          "__rl": true,
+          "value": "nandKadivar",
+          "mode": "list",
+          "cachedResultName": "nandKadivar",
+          "cachedResultUrl": "https://github.com/nandKadivar"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-automation",
+          "mode": "list",
+          "cachedResultName": "n8n-automation",
+          "cachedResultUrl": "https://github.com/nandKadivar/n8n-automation"
+        },
+        "events": [
+          "pull_request"
+        ],
+        "options": {}
+      },
+      "id": "95013f57-646f-4455-b1a2-26478a97ee1d",
+      "name": "Github Trigger",
+      "type": "n8n-nodes-base.githubTrigger",
+      "typeVersion": 1,
+      "position": [
+        20,
+        560
+      ],
+      "webhookId": "9fa9401c-ce11-42af-9d14-a4ccf2fb5263",
+      "credentials": {
+        "githubApi": {
+          "id": "ux4uxA6mh7Y5MUDV",
+          "name": "GitHub account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "4bc3b0a6-9412-4b88-8a4b-c57221b61bc5",
+              "leftValue": "={{$json[\"body\"][\"action\"]}}",
+              "rightValue": "opened",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ea5e1fc3-e7b2-4aba-9e22-9f9b2caf4216",
+              "leftValue": "={{$json[\"body\"][\"action\"]}}",
+              "rightValue": "reopened",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "6b1f0ac6-eb87-438d-a89b-993e6acae5b8",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        240,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07BVLA3SCE",
+          "mode": "list",
+          "cachedResultName": "pr"
+        },
+        "text": "=Pull Request {{$json[\"body\"][\"pull_request\"][\"title\"]}} is {{$json[\"body\"][\"action\"]}} and ready for review.\nURL: {{ $json.body.pull_request.url }}",
+        "otherOptions": {}
+      },
+      "id": "6a350b0f-db57-4ae1-83ee-740e2babe1ea",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        460
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "ysYGhCYE9Iyp5000",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07BVLA3SCE",
+          "mode": "list",
+          "cachedResultName": "pr"
+        },
+        "text": "=Pull Request {{$json[\"body\"][\"pull_request\"][\"title\"]}} is {{$json[\"body\"][\"action\"]}}.\nURL: {{ $json.body.pull_request.url }}",
+        "otherOptions": {}
+      },
+      "id": "7db070f5-dac5-42b1-beed-8032a831eb2e",
+      "name": "Slack1",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        660
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "ysYGhCYE9Iyp5000",
+          "name": "Slack account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Github Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ed409155-5ba5-484c-a7a0-261988894a5a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c60622df2d0da637443a4dae4e73f72da189d9d175434cb30baf5f9cf8a1d0cd"
+  },
+  "id": "bMeWFHbOrhpJUZh9",
+  "tags": []
+}
