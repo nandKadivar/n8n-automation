@@ -114,6 +114,9 @@ Create a test pull request in your GitHub repository to ensure that the workflow
 
 <img width="1439" alt="image" src="https://github.com/user-attachments/assets/0c064b12-bf0f-4a2f-b840-8f625045db53">
 
+### Execution video
+
+[Watch the demo video](https://www.youtube.com/watch?v=6P5Q-KnyzDw)
 
 ## Workflow Details
 
